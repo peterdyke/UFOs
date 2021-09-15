@@ -12,7 +12,8 @@ function buildTable(data) {
     // Loop through each object in data and append
     // a row and cells for each value in row
     data.forEach((dataRow) => {
-        // Append a row to the table body
+        // Append a row to the table body.
+        // Adds <tr> tag inside <tbody> for every row
         let row = tbody.append("tr");
 
         // Loop through each field in the dataRow and
@@ -25,26 +26,29 @@ function buildTable(data) {
     });
 }
 
-// Create new function to add filters when a click happens
+// Build filter button function
 function handleClick() {
-    // Grab datetime value from filter
+    // Grab the datetime value from the filter
     let date = d3.select("#datetime").property("value");
     let filteredData = tableData;
-
-    // Check to see if date was entered and filter
-    // the data using that date
+  
+     // Check to see if a date was entered and filter the
+    // data using that date.
     if (date) {
-        // Apply filter to table data to only keep the rows
-        // where datetime value matches the filter value
-        filteredData = filteredData.filter(row => row.datetime === date);
-    };
-    // Rebuild table using filtered data. ** If no data was entered
-    // then filterData will just be original tableData
-    buildTable(tableData);
-};
-
-// Attach an even to listen for the form button
-d3.selectAll("filter-btn").on("click", handleClick);
-
-// Build the table when the page loads
-buildTable(tableData);
+      // Apply `filter` to the table data to only keep the
+      // rows where the `datetime` value matches the filter value
+      filteredData = filteredData.filter(row => row.datetime === date);
+    }
+  
+     // Rebuild the table using the filtered data
+    // @NOTE: If no date was entered, then filteredData will
+    // just be the original tableData.
+    buildTable(filteredData);
+  }
+  
+  // Attach an event to listen for the form button
+  d3.selectAll("#filter-btn").on("click", handleClick);
+  
+  // Build the table when the page loads
+  buildTable(tableData);
+  
